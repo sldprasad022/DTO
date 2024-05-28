@@ -1,5 +1,8 @@
 package com.example.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -70,6 +73,30 @@ public class UserServiceImpl implements UserService {
 			return user;
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with this Id is not Present " + userId);
+		}
+	}
+
+	@Override
+	public ResponseEntity<List<UserLocationDTO>> all() {
+		List<User> all = userRepository.findAll();
+		List<UserLocationDTO> allDTO = new ArrayList<>();
+		if (all.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No objects are present ");
+		} else {
+			for (int i = 0; i < all.size(); i++) {
+				UserLocationDTO userLocationDTO = new UserLocationDTO();
+				userLocationDTO.setUserId(all.get(i).getUserId());
+				userLocationDTO.setFirstNAme(all.get(i).getFirstName());
+				userLocationDTO.setEmail(all.get(i).getEmail());
+
+				System.err.println(all.get(i).getLastName());
+
+				userLocationDTO.setPlace(all.get(i).getLocation().getPlace());
+				userLocationDTO.setLongitude(all.get(i).getLocation().getLongitude());
+				userLocationDTO.setLatitude(all.get(i).getLocation().getLatitude());
+				allDTO.add(userLocationDTO);
+			}
+			return ResponseEntity.ok(allDTO);
 		}
 	}
 

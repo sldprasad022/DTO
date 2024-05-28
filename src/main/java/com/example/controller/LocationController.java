@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,4 +61,10 @@ public class LocationController {
 		return ResponseEntity.ok(fetchedUser);
 	}
 
+	@GetMapping("/user/get/allDTO")
+	public ResponseEntity<ResponseEntity<List<UserLocationDTO>>> all() {
+		ResponseEntity<List<UserLocationDTO>> alldto = userService.all();
+		return ResponseEntity.ok(alldto);
+
+	}
 }
